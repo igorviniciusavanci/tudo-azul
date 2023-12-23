@@ -3,7 +3,7 @@ const StealthPlugin = require('puppeteer-extra-plugin-stealth')
 puppeteer.use(StealthPlugin())
 
 const launchBrowser = async () => {
-  const browser = await puppeteer.launch({headless: 'new'})
+  const browser = await puppeteer.launch({headless: 'new', defaultViewport: null})
   const page = await browser.newPage()
   return { browser, page }
 }
@@ -16,7 +16,8 @@ const getList = async (page) => {
   await page.goto(url,{timeout: 0})
   console.log('[ 🤖 ] waiting for page content')
   await page.screenshot({path: './t1.png'});
-  // await page.waitForSelector('.card-list')
+  setInterval(() => {page.screenshot({path: './t2.png'})}, 5000)
+  await page.waitForSelector('.card-list')
 }
 
 module.exports = {
